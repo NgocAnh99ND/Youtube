@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube – Tua Ngược Theo Số Lần Chạm</title>
+  <style>
+    body { font-family: Arial, text-align: center; background: #f0f0f0; margin: 20px; }
+    #playerContainer { position: relative; display: inline-block; }
+    iframe { width: 90vw; height: 50vw; max-width: 560px; max-height: 315px; border: none; }
+    .overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0); z-index: 10;
+    }
+    .notice {
+      margin-top: 10px; font-size: 16px; color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2>YouTube – Tua Ngược Theo Chạm</h2>
+  <div id="playerContainer">
+    <div id="player"></div>
+    <div class="overlay" id="tapArea"></div>
+  </div>
+  <div class="notice">👆 Chạm 2 lần để lùi 3 giây – Chạm 3 lần để lùi 1 giây</div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    const videoId = "dQw4w9WgXcQ"; // Thay bằng ID video YouTube mong muốn
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: videoId,
+        playerVars: { 'playsinline': 1 },
+        events: {
+          'onReady': () => console.log("Player ready")
+        }
+      });
+    }
+
+    // Đếm số lần chạm liên tiếp
+    let tapCount = 0;
+    let tapTimer = null;
+
+    document.getElementById('tapArea').addEventListener('touchstart', function () {
+      tapCount++;
+      clearTimeout(tapTimer);
+
+      // Đợi 400ms để nhận thêm chạm, sau đó xử lý
+      tapTimer = setTimeout(() => {
+        if (tapCount === 2) {
+          skip(-3); // Tua lùi 3 giây
+        } else if (tapCount === 3) {
+          skip(-1); // Tua lùi 1 giây
+        }
+        tapCount = 0;
+      }, 400);
+    });
+
+    // Hàm tua video
+    function skip(seconds) {
+      const time = player.getCurrentTime();
+      player.seekTo(Math.max(time + seconds, 0), true); // Không tua quá về đầu video
+    }
+  </script>
+</body>
+</html>
