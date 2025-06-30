@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>YouTube Player – Nhúng đơn giản</title>
+  <title>YouTube Player – Tua theo thời gian tùy chọn</title>
   <style>
     body {
       font-family: Arial;
@@ -16,7 +16,8 @@
       margin-bottom: 15px;
     }
 
-    input[type="text"] {
+    input[type="text"],
+    input[type="number"] {
       padding: 10px;
       width: 60%;
       max-width: 400px;
@@ -33,7 +34,7 @@
       color: white;
       border-radius: 4px;
       cursor: pointer;
-      margin-left: 5px;
+      margin: 5px;
     }
 
     button:hover {
@@ -51,11 +52,16 @@
     #controls {
       margin-top: 15px;
     }
+
+    #controls input[type="number"] {
+      width: 80px;
+      margin-right: 10px;
+    }
   </style>
 </head>
 
 <body>
-  <h2>YouTube – Trình phát giống thật</h2>
+  <h2>YouTube – Trình phát & Tua thời gian tùy chọn</h2>
 
   <div class="inputGroup">
     <input type="text" id="searchInput" placeholder="🔍 Nhập từ khóa tìm kiếm video..." />
@@ -67,17 +73,17 @@
     <button onclick="loadVideoFromLink()">Phát từ link</button>
   </div>
 
-  <!-- YouTube iframe player -->
   <div id="playerContainer">
     <div id="player"></div>
   </div>
 
-  <!-- Nút tua nhanh -->
   <div id="controls">
-    <button onclick="seekForward()">⏩ Tua nhanh 3s</button>
+    <input type="number" id="seekSeconds" value="3" min="1" />
+    <button onclick="seekBackward()">⏪ Tua lùi</button>
+    <button onclick="seekForward()">⏩ Tua nhanh</button>
   </div>
 
-  <!-- Thêm API script của YouTube -->
+  <!-- Nhúng YouTube IFrame API -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
@@ -87,7 +93,7 @@
       player = new YT.Player("player", {
         height: "315",
         width: "560",
-        videoId: "M7lc1UVf-VE",
+        videoId: "M7lc1UVf-VE", // Video mặc định
         playerVars: {
           controls: 1,
           cc_load_policy: 1,
@@ -131,9 +137,18 @@
     }
 
     function seekForward() {
+      const seconds = parseInt(document.getElementById("seekSeconds").value) || 3;
       if (player && player.getCurrentTime) {
         const currentTime = player.getCurrentTime();
-        player.seekTo(currentTime + 3, true); // Tua nhanh 3 giây
+        player.seekTo(currentTime + seconds, true);
+      }
+    }
+
+    function seekBackward() {
+      const seconds = parseInt(document.getElementById("seekSeconds").value) || 3;
+      if (player && player.getCurrentTime) {
+        const currentTime = player.getCurrentTime();
+        player.seekTo(Math.max(0, currentTime - seconds), true);
       }
     }
 
