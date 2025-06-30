@@ -56,7 +56,7 @@
       left: 0;
       width: 100vw;
       /* chừa 80px */
-      height: 100vh;
+      height: calc(100vh - 10px);
       z-index: 1000;
     }
 
@@ -120,20 +120,18 @@
   <div id="playerWrapper">
     <iframe id="player" src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&controls=1&cc_load_policy=1&rel=0"
       frameborder="0" allowfullscreen></iframe>
-
-    <!-- Nút điều khiển fullscreen -->
-    <div id="fullscreenControls">
-      <div id="fullscreenControls">
-        <button id="btnEnter" onclick="enterFullscreen()">🔳</button>
-        <button id="btnExit" onclick="exitFullscreen()" style="display: none;">❌</button>
-      </div>
-    </div>
   </div>
 
   <div id="rightButtons">
     <button class="fs-btn" onclick="seekBackward()">⏪</button>
     <button class="fs-btn" onclick="seekForward()">⏩</button>
     <input type="number" id="seekSeconds" value="3" min="0.2" step="0.2" style="width: 60px; text-align: center;">
+  </div>
+
+  <!-- Nút điều khiển fullscreen -->
+  <div id="fullscreenControls">
+    <button id="btnEnter" onclick="enterFullscreen()">🔳</button>
+    <button id="btnExit" onclick="exitFullscreen()" style="display: none; z-index: 99999;">❌</button>
   </div>
 
   <!-- YouTube API -->
@@ -177,17 +175,23 @@
       // Xóa class fullscreen
       wrapper.classList.remove("fullscreen");
 
-      // Reset kích thước iframe về mặc định
-      player.style.height = "315px";
+      // Reset kích thước wrapper và player
+      wrapper.style.position = "";
+      wrapper.style.top = "";
+      wrapper.style.left = "";
+      wrapper.style.width = "";
+      wrapper.style.height = "";
+      player.style.height = "315px";  // nếu bạn set width/height thủ công thì reset về mặc định
 
-      // Ẩn nút tua
+      // Ẩn các nút tua
       buttons.style.display = "none";
 
-      // Toggle nút hiển thị
+      // Toggle hiển thị nút fullscreen
       document.getElementById("btnEnter").style.display = "inline-block";
       document.getElementById("btnExit").style.display = "none";
     }
-    
+
+
     function toggleFullscreen() {
       const wrapper = document.getElementById("playerWrapper");
       if (wrapper.classList.contains("fullscreen")) {
