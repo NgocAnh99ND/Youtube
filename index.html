@@ -1,165 +1,115 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8" />
-  <title>YouTube Player – Tua theo thời gian tùy chọn</title>
+  <meta charset="UTF-8">
+  <title>YouTube Player – Giả Fullscreen và Nút tua</title>
   <style>
     body {
       font-family: Arial;
-      text-align: center;
-      background: #f0f0f0;
-      margin: 20px;
+      margin: 0;
+      background-color: #000;
+      color: white;
     }
 
-    .inputGroup {
-      margin-bottom: 15px;
+    #playerWrapper {
+      position: relative;
+      width: calc(100vw - 80px); /* chừa 80px bên phải */
+      height: 100vh;
+      background-color: black;
     }
 
-    input[type="text"],
-    input[type="number"] {
-      padding: 10px;
-      width: 60%;
-      max-width: 400px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+    #playerWrapper.fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
     }
 
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
+    #player {
+      width: 100%;
+      height: 100%;
       border: none;
+    }
+
+    #rightButtons {
+      position: fixed;
+      top: 40%;
+      right: 10px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .fs-btn {
+      padding: 10px 15px;
       background-color: #cc0000;
       color: white;
-      border-radius: 4px;
-      cursor: pointer;
-      margin: 5px;
-    }
-
-    button:hover {
-      background-color: #b30000;
-    }
-
-    iframe {
-      width: 90vw;
-      height: 50vw;
-      max-width: 560px;
-      max-height: 315px;
       border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
     }
 
-    #controls {
-      margin-top: 15px;
-    }
-
-    #controls input[type="number"] {
-      width: 80px;
-      margin-right: 10px;
+    #enterFullBtn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 1500;
+      padding: 6px 10px;
+      font-size: 14px;
     }
   </style>
 </head>
-
 <body>
-  <h2>YouTube – Trình phát & Tua thời gian tùy chọn</h2>
 
-  <div class="inputGroup">
-    <input type="text" id="searchInput" placeholder="🔍 Nhập từ khóa tìm kiếm video..." />
-    <button onclick="searchYouTube()">Tìm kiếm</button>
-  </div>
+<div id="playerWrapper">
+  <iframe id="player" src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&controls=1&cc_load_policy=1&rel=0" allowfullscreen></iframe>
+  <button id="enterFullBtn" onclick="toggleFullscreen()">🔳 Giả Full</button>
+</div>
 
-  <div class="inputGroup">
-    <input type="text" id="linkInput" placeholder="📺 Nhập link YouTube..." />
-    <button onclick="loadVideoFromLink()">Phát từ link</button>
-  </div>
+<div id="rightButtons" style="display: none;">
+  <button class="fs-btn" onclick="seekBackward()">⏪</button>
+  <button class="fs-btn" onclick="seekForward()">⏩</button>
+  <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2" style="width: 60px; text-align: center;">
+</div>
 
-  <div id="playerContainer">
-    <div id="player"></div>
-  </div>
-
-  <div id="controls">
-    <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2" />
-    <button onclick="seekBackward()">⏪ Tua lùi</button>
-    <button onclick="seekForward()">⏩ Tua nhanh</button>
-  </div>
-
-  <!-- Nhúng YouTube IFrame API -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-
-  <script>
-    let player;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player("player", {
-        height: "315",
-        width: "560",
-        videoId: "M7lc1UVf-VE", // Video mặc định
-        playerVars: {
-          controls: 1,
-          cc_load_policy: 1,
-          rel: 0
-        }
-      });
-    }
-
-    function extractVideoId(url) {
-      const match = url.match(/(?:youtu\.be\/|v=)([\w-]{11})/);
-      return match ? match[1] : null;
-    }
-
-    function loadVideoById(videoId) {
-      if (player && player.loadVideoById) {
-        player.loadVideoById(videoId);
-      }
-    }
-
-    function loadVideoFromLink() {
-      const url = document.getElementById("linkInput").value.trim();
-      const videoId = extractVideoId(url);
-      if (videoId) {
-        loadVideoById(videoId);
-      } else {
-        alert("Link không hợp lệ.");
-      }
-    }
-
-    async function searchYouTube() {
-      const q = document.getElementById("searchInput").value.trim();
-      if (!q) return;
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video&maxResults=1&key=AIzaSyAR2DtSCtxQClNdXFVGjUjIzLujUQL3iaI`);
-      const data = await res.json();
-      if (data.items && data.items.length > 0) {
-        const videoId = data.items[0].id.videoId;
-        loadVideoById(videoId);
-      } else {
-        alert("Không tìm thấy video.");
-      }
-    }
-
-    function seekForward() {
-      const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
-      if (player && player.getCurrentTime) {
-        const currentTime = player.getCurrentTime();
-        player.seekTo(currentTime + seconds, true);
-      }
-    }
-
-    function seekBackward() {
-      const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
-      if (player && player.getCurrentTime) {
-        const currentTime = player.getCurrentTime();
-        player.seekTo(Math.max(0, currentTime - seconds), true);
-      }
-    }
-
-    document.getElementById("searchInput").addEventListener("keydown", e => {
-      if (e.key === "Enter") searchYouTube();
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player("player", {
+      events: {}
     });
+  }
 
-    document.getElementById("linkInput").addEventListener("keydown", e => {
-      if (e.key === "Enter") loadVideoFromLink();
-    });
-  </script>
+  function toggleFullscreen() {
+    const wrapper = document.getElementById("playerWrapper");
+    const buttons = document.getElementById("rightButtons");
+    wrapper.classList.toggle("fullscreen");
+
+    if (wrapper.classList.contains("fullscreen")) {
+      buttons.style.display = "flex";
+    } else {
+      buttons.style.display = "none";
+    }
+  }
+
+  function seekForward() {
+    const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
+    if (player && player.getCurrentTime) {
+      const currentTime = player.getCurrentTime();
+      player.seekTo(currentTime + seconds, true);
+    }
+  }
+
+  function seekBackward() {
+    const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
+    if (player && player.getCurrentTime) {
+      const currentTime = player.getCurrentTime();
+      player.seekTo(Math.max(0, currentTime - seconds), true);
+    }
+  }
+</script>
 </body>
-
 </html>
