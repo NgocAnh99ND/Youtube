@@ -125,7 +125,7 @@
 
   <div id="fullscreenControls">
     <button id="btnEnter" onclick="enterFullscreen()">🔳</button>
-    <button id="btnExit" onclick="exitFullscreen()" style="display: none;">❌</button>
+    <button id="btnExit" onclick="exitFullscreen2()" style="display: none;">❌</button>
   </div>
 
   <script src="https://www.youtube.com/iframe_api"></script>
@@ -156,8 +156,7 @@
       document.getElementById("btnExit").style.display = "inline-block";
     }
 
-    function exitFullscreen() {
-      console.log("LOG: Đã nhấn exit");
+    function exitFullscreen2() {
       const wrapper = document.getElementById("playerWrapper");
       wrapper.classList.remove("fullscreen");
       document.getElementById("rightButtons").style.display = "none";
