@@ -78,7 +78,7 @@
   </div>
 
   <div id="controls">
-    <input type="number" id="seekSeconds" value="3" min="1" />
+    <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2" />
     <button onclick="seekBackward()">⏪ Tua lùi</button>
     <button onclick="seekForward()">⏩ Tua nhanh</button>
   </div>
@@ -137,7 +137,7 @@
     }
 
     function seekForward() {
-      const seconds = parseInt(document.getElementById("seekSeconds").value) || 3;
+      const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
       if (player && player.getCurrentTime) {
         const currentTime = player.getCurrentTime();
         player.seekTo(currentTime + seconds, true);
@@ -145,7 +145,7 @@
     }
 
     function seekBackward() {
-      const seconds = parseInt(document.getElementById("seekSeconds").value) || 3;
+      const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
       if (player && player.getCurrentTime) {
         const currentTime = player.getCurrentTime();
         player.seekTo(Math.max(0, currentTime - seconds), true);
