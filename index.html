@@ -50,19 +50,19 @@
       background-color: black;
     }
 
+    #player {
+      width: 100%;
+      height: 315px;
+    }
+
     #playerWrapper.fullscreen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
-      /* chừa 80px */
-      height: calc(100vh - 10px);
+      height: 100vh;
+      margin: 0;
       z-index: 1000;
-    }
-
-    #player {
-      width: 100%;
-      height: 315px;
     }
 
     #playerWrapper.fullscreen #player {
@@ -73,7 +73,7 @@
       position: fixed;
       top: 40%;
       right: 10px;
-      z-index: 2000;
+      z-index: 1100;
       display: none;
       flex-direction: column;
       gap: 20px;
@@ -93,7 +93,7 @@
       position: absolute;
       bottom: 10px;
       right: 10px;
-      z-index: 1500;
+      z-index: 1050;
     }
 
     #fullscreenControls button {
@@ -106,11 +106,6 @@
 <body>
 
   <h2>YouTube – Trình phát & Tua thời gian tùy chọn</h2>
-
-  <div class="inputGroup">
-    <input type="text" id="searchInput" placeholder="🔍 Nhập từ khóa tìm kiếm video...">
-    <button onclick="searchYouTube()">Tìm kiếm</button>
-  </div>
 
   <div class="inputGroup">
     <input type="text" id="linkInput" placeholder="📺 Nhập link YouTube...">
@@ -128,16 +123,15 @@
     <input type="number" id="seekSeconds" value="3" min="0.2" step="0.2" style="width: 60px; text-align: center;">
   </div>
 
-  <!-- Nút điều khiển fullscreen -->
   <div id="fullscreenControls">
     <button id="btnEnter" onclick="enterFullscreen()">🔳</button>
-    <button id="btnExit" onclick="exitFullscreen()" style="display: none; z-index: 99999;">❌</button>
+    <button id="btnExit" onclick="exitFullscreen()" style="display: none;">❌</button>
   </div>
 
-  <!-- YouTube API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     let player;
+
     function onYouTubeIframeAPIReady() {
       player = new YT.Player("player", {});
     }
@@ -156,55 +150,25 @@
 
     function enterFullscreen() {
       const wrapper = document.getElementById("playerWrapper");
-      const buttons = document.getElementById("rightButtons");
-
       wrapper.classList.add("fullscreen");
-      buttons.style.display = "flex";
-
-      // Ẩn nút 🔳, hiện nút ❌
+      document.getElementById("rightButtons").style.display = "flex";
       document.getElementById("btnEnter").style.display = "none";
       document.getElementById("btnExit").style.display = "inline-block";
     }
 
-
     function exitFullscreen() {
+      console.log("LOG: Đã nhấn exit");
       const wrapper = document.getElementById("playerWrapper");
-      const buttons = document.getElementById("rightButtons");
-      const player = document.getElementById("player");
-
-      // Xóa class fullscreen
       wrapper.classList.remove("fullscreen");
-
-      // Reset kích thước wrapper và player
-      wrapper.style.position = "";
-      wrapper.style.top = "";
-      wrapper.style.left = "";
-      wrapper.style.width = "";
-      wrapper.style.height = "";
-      player.style.height = "315px";  // nếu bạn set width/height thủ công thì reset về mặc định
-
-      // Ẩn các nút tua
-      buttons.style.display = "none";
-
-      // Toggle hiển thị nút fullscreen
+      document.getElementById("rightButtons").style.display = "none";
       document.getElementById("btnEnter").style.display = "inline-block";
       document.getElementById("btnExit").style.display = "none";
     }
 
-
-    function toggleFullscreen() {
-      const wrapper = document.getElementById("playerWrapper");
-      if (wrapper.classList.contains("fullscreen")) {
-        exitFullscreen();
-      } else {
-        enterFullscreen();
-      }
-    }
-
-    // Enter bằng phím
     document.getElementById("searchInput").addEventListener("keydown", e => {
       if (e.key === "Enter") searchYouTube();
     });
+
     document.getElementById("linkInput").addEventListener("keydown", e => {
       if (e.key === "Enter") loadVideoFromLink();
     });
@@ -221,19 +185,6 @@
         player.loadVideoById(videoId);
       } else {
         alert("Link không hợp lệ.");
-      }
-    }
-
-    async function searchYouTube() {
-      const q = document.getElementById("searchInput").value.trim();
-      if (!q) return;
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video&maxResults=1&key=AIzaSyAR2DtSCtxQClNdXFVGjUjIzLujUQL3iaI`);
-      const data = await res.json();
-      if (data.items && data.items.length > 0) {
-        const videoId = data.items[0].id.videoId;
-        player.loadVideoById(videoId);
-      } else {
-        alert("Không tìm thấy video.");
       }
     }
   </script>
