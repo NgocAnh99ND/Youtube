@@ -2,8 +2,8 @@
 <html lang="vi">
 
 <head>
-  <meta charset="UTF-8">
-  <title>YouTube – Tua Ngược Theo Số Lần Chạm</title>
+  <meta charset="UTF-8" />
+  <title>YouTube Player – Nhúng đơn giản</title>
   <style>
     body {
       font-family: Arial;
@@ -12,9 +12,32 @@
       margin: 20px;
     }
 
-    #playerContainer {
-      position: relative;
-      display: inline-block;
+    .inputGroup {
+      margin-bottom: 15px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 60%;
+      max-width: 400px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      background-color: #cc0000;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    button:hover {
+      background-color: #b30000;
     }
 
     iframe {
@@ -25,73 +48,102 @@
       border: none;
     }
 
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0);
-      z-index: 10;
-    }
-
-    .notice {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #333;
+    #controls {
+      margin-top: 15px;
     }
   </style>
 </head>
 
 <body>
-  <h2>YouTube – Tua Ngược Theo Chạm</h2>
+  <h2>YouTube – Trình phát giống thật</h2>
+
+  <div class="inputGroup">
+    <input type="text" id="searchInput" placeholder="🔍 Nhập từ khóa tìm kiếm video..." />
+    <button onclick="searchYouTube()">Tìm kiếm</button>
+  </div>
+
+  <div class="inputGroup">
+    <input type="text" id="linkInput" placeholder="📺 Nhập link YouTube..." />
+    <button onclick="loadVideoFromLink()">Phát từ link</button>
+  </div>
+
+  <!-- YouTube iframe player -->
   <div id="playerContainer">
     <div id="player"></div>
-    <div class="overlay" id="tapArea"></div>
   </div>
-  <div class="notice">👆 Chạm 2 lần để lùi 3 giây – Chạm 3 lần để lùi 1 giây</div>
 
+  <!-- Nút tua nhanh -->
+  <div id="controls">
+    <button onclick="seekForward()">⏩ Tua nhanh 3s</button>
+  </div>
+
+  <!-- Thêm API script của YouTube -->
   <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
     let player;
-    const videoId = "dQw4w9WgXcQ"; // Thay bằng ID video YouTube mong muốn
 
     function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '360',
-        width: '640',
-        videoId: videoId,
-        playerVars: { 'playsinline': 1 },
-        events: {
-          'onReady': () => console.log("Player ready")
+      player = new YT.Player("player", {
+        height: "315",
+        width: "560",
+        videoId: "M7lc1UVf-VE",
+        playerVars: {
+          controls: 1,
+          cc_load_policy: 1,
+          rel: 0
         }
       });
     }
 
-    // Đếm số lần chạm liên tiếp
-    let tapCount = 0;
-    let tapTimer = null;
+    function extractVideoId(url) {
+      const match = url.match(/(?:youtu\.be\/|v=)([\w-]{11})/);
+      return match ? match[1] : null;
+    }
 
-    document.getElementById('tapArea').addEventListener('touchstart', function () {
-      tapCount++;
-      clearTimeout(tapTimer);
+    function loadVideoById(videoId) {
+      if (player && player.loadVideoById) {
+        player.loadVideoById(videoId);
+      }
+    }
 
-      // Đợi 400ms để nhận thêm chạm, sau đó xử lý
-      tapTimer = setTimeout(() => {
-        if (tapCount === 2) {
-          skip(-3); // Tua lùi 3 giây
-        } else if (tapCount === 3) {
-          skip(-1); // Tua lùi 1 giây
-        }
-        tapCount = 0;
-      }, 400);
+    function loadVideoFromLink() {
+      const url = document.getElementById("linkInput").value.trim();
+      const videoId = extractVideoId(url);
+      if (videoId) {
+        loadVideoById(videoId);
+      } else {
+        alert("Link không hợp lệ.");
+      }
+    }
+
+    async function searchYouTube() {
+      const q = document.getElementById("searchInput").value.trim();
+      if (!q) return;
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video&maxResults=1&key=AIzaSyAR2DtSCtxQClNdXFVGjUjIzLujUQL3iaI`);
+      const data = await res.json();
+      if (data.items && data.items.length > 0) {
+        const videoId = data.items[0].id.videoId;
+        loadVideoById(videoId);
+      } else {
+        alert("Không tìm thấy video.");
+      }
+    }
+
+    function seekForward() {
+      if (player && player.getCurrentTime) {
+        const currentTime = player.getCurrentTime();
+        player.seekTo(currentTime + 3, true); // Tua nhanh 3 giây
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("keydown", e => {
+      if (e.key === "Enter") searchYouTube();
     });
 
-    // Hàm tua video
-    function skip(seconds) {
-      const time = player.getCurrentTime();
-      player.seekTo(Math.max(time + seconds, 0), true); // Không tua quá về đầu video
-    }
+    document.getElementById("linkInput").addEventListener("keydown", e => {
+      if (e.key === "Enter") loadVideoFromLink();
+    });
   </script>
 </body>
 
