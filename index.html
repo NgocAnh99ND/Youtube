@@ -18,36 +18,40 @@
 
   <div id="playerWrapper">
     <iframe id="player" src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&controls=1&cc_load_policy=1&rel=0"
-      frameborder="0" allowfullscreen></iframe>
-  </div>
+      frameborder="0" allowfullscreen>
+    </iframe>
 
-  <div id="rightButtons">
-    <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2" style="width: 39px; border-radius: 6px; text-align: center;">
-    <button class="fs-btn" onclick="seekForward()">
-      <img src="icons/fast-forward.svg" alt="Fast forward" width="24" height="24">
-    </button>
-    <button class="fs-btn" onclick="seekBackward()">
-      <img src="icons/rewind.svg" alt="Rewind" width="24" height="24">
-    </button>
-    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-      <button id="increaseSeekBtn">
-        <img src="icons/chevrons-up.svg" alt="Up" width="24" height="24">
+    <div id="rightButtons">
+      <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2"
+        style="width: 39px; border-radius: 6px; text-align: center;">
+      <button class="fs-btn" onclick="seekForward()">
+        <img src="icons/fast-forward.svg" alt="Fast forward" width="24" height="24">
       </button>
-      <button id="decreaseSeekBtn">
-        <img src="icons/chevrons-down.svg" alt="Down" width="24" height="24">
+      <button class="fs-btn" onclick="seekBackward()">
+        <img src="icons/rewind.svg" alt="Rewind" width="24" height="24">
       </button>
-      <input type="number" id="customValue" value="0.2" min="0.2" step="0.2" style="width: 40px; border-radius: 6px; text-align: center;">
+      <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+        <button id="increaseSeekBtn">
+          <img src="icons/chevrons-up.svg" alt="Up" width="24" height="24">
+        </button>
+        <button id="decreaseSeekBtn">
+          <img src="icons/chevrons-down.svg" alt="Down" width="24" height="24">
+        </button>
+        <input type="number" id="customValue" value="0.2" min="0.2" step="0.2"
+          style="width: 40px; border-radius: 6px; text-align: center;">
+      </div>
+      <div id="fullscreenControls">
+        <button id="btnEnter" onclick="enterFullscreen()">
+          <img src="icons/maximize.svg" alt="Enter fullscreen" width="24" height="24">
+        </button>
+        <button id="btnExit" onclick="exitFullscreen2()" style="display: none;">
+          <img src="icons/minimize.svg" alt="Exit fullscreen" width="24" height="24">
+        </button>
+      </div>
     </div>
   </div>
 
-  <div id="fullscreenControls">
-    <button id="btnEnter" onclick="enterFullscreen()">
-      <img src="icons/maximize.svg" alt="Enter fullscreen" width="24" height="24">
-    </button>
-    <button id="btnExit" onclick="exitFullscreen2()" style="display: none;">
-      <img src="icons/minimize.svg" alt="Exit fullscreen" width="24" height="24">
-    </button>
-  </div>
+
 
   <script src="https://www.youtube.com/iframe_api"></script>
   <script src="main.js" defer></script>
