@@ -24,37 +24,17 @@
   <div id="rightButtons">
     <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2" style="width: 45px; text-align: center;">
     <button class="fs-btn" onclick="seekForward()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="lucide lucide-fast-forward-icon lucide-fast-forward">
-        <polygon points="13 19 22 12 13 5 13 19" />
-        <polygon points="2 19 11 12 2 5 2 19" />
-      </svg>
+      <div id="icon-fast-forward"></div>
     </button>
     <button class="fs-btn" onclick="seekBackward()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="lucide lucide-rewind-icon lucide-rewind">
-        <polygon points="11 19 2 12 11 5 11 19" />
-        <polygon points="22 19 13 12 22 5 22 19" />
-      </svg>
+      <div id="icon-rewind"></div>
     </button>
     <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
       <button id="increaseSeekBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
-          <path d="m17 11-5-5-5 5" />
-          <path d="m17 18-5-5-5 5" />
-        </svg>
+        <div id="icon-chevron-up"></div>
       </button>
       <button id="decreaseSeekBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-chevrons-down-icon lucide-chevrons-down">
-          <path d="m7 6 5 5 5-5" />
-          <path d="m7 13 5 5 5-5" />
-        </svg>
+        <div id="icon-chevron-down"></div>
       </button>
       <input type="number" id="customValue" value="0.2" min="0.2" step="0.2" style="width: 45px; text-align: center;">
     </div>
@@ -62,139 +42,15 @@
 
   <div id="fullscreenControls">
     <button id="btnEnter" onclick="enterFullscreen()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="lucide lucide-maximize-icon lucide-maximize">
-        <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-        <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
-        <path d="M3 16v3a2 2 0 0 0 2 2h3" />
-        <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
-      </svg>
+      <div id="icon-maximize"></div>
     </button>
     <button id="btnExit" onclick="exitFullscreen2()" style="display: none;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="lucide lucide-minimize-icon lucide-minimize">
-        <path d="M8 3v3a2 2 0 0 1-2 2H3" />
-        <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
-        <path d="M3 16h3a2 2 0 0 1 2 2v3" />
-        <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
-      </svg>
+      <div id="icon-minimize"></div>
     </button>
   </div>
 
   <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
-    let player;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player("player", {});
-    }
-
-    function seekForward() {
-      const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
-      const currentTime = player.getCurrentTime();
-      player.seekTo(currentTime + seconds, true);
-    }
-
-    function seekBackward() {
-      const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
-      const currentTime = player.getCurrentTime();
-      player.seekTo(Math.max(0, currentTime - seconds), true);
-    }
-
-    function enterFullscreen() {
-      const wrapper = document.getElementById("playerWrapper");
-      wrapper.classList.add("fullscreen");
-      document.getElementById("rightButtons").style.display = "flex";
-      document.getElementById("btnEnter").style.display = "none";
-      document.getElementById("btnExit").style.display = "inline-block";
-    }
-
-    function exitFullscreen2() {
-      const wrapper = document.getElementById("playerWrapper");
-      wrapper.classList.remove("fullscreen");
-      document.getElementById("rightButtons").style.display = "flex";
-      document.getElementById("btnEnter").style.display = "inline-block";
-      document.getElementById("btnExit").style.display = "none";
-    }
-
-    document.getElementById("linkInput").addEventListener("keydown", e => {
-      if (e.key === "Enter") loadVideoFromLink();
-    });
-
-    function extractVideoId(url) {
-      const match = url.match(/(?:youtu\.be\/|v=)([\w-]{11})/);
-      return match ? match[1] : null;
-    }
-
-    function loadVideoFromLink() {
-      const url = document.getElementById("linkInput").value.trim();
-      const videoId = extractVideoId(url);
-      if (videoId) {
-        player.loadVideoById(videoId);
-      } else {
-        alert("Link không hợp lệ.");
-      }
-    }
-
-    // Đăng ký thêm sự kiện 'touchstart' để hỗ trợ mobile
-    function addTouchSupport(id, handler) {
-      const btn = document.getElementById(id);
-      if (btn) {
-        btn.addEventListener('touchstart', e => {
-          e.preventDefault(); // ngăn chặn delay chạm trên mobile
-          handler();
-        });
-      }
-    }
-
-    function addTouchSupportClass(className, handlerMap) {
-      const buttons = document.getElementsByClassName(className);
-      Array.from(buttons).forEach(btn => {
-        const text = btn.textContent.trim();
-        if (handlerMap[text]) {
-          btn.addEventListener('touchstart', e => {
-            e.preventDefault();
-            handlerMap[text]();
-          });
-        }
-      });
-    }
-
-    // Gán sự kiện chạm cho các nút trong fullscreenControls
-    addTouchSupport('btnEnter', enterFullscreen);
-    addTouchSupport('btnExit', exitFullscreen2);
-
-    // Gán sự kiện chạm cho các nút ⏪ và ⏩ theo nội dung nút
-    addTouchSupportClass('fs-btn', {
-      '⏪': seekBackward,
-      '⏩': seekForward
-    });
-
-    function increaseSeek() {
-      const input = document.getElementById("seekSeconds");
-      const step = parseFloat(document.getElementById("customValue").value) || 1;
-      const value = parseFloat(input.value) || 0;
-      input.value = (value + step).toFixed(1);
-    }
-
-    function decreaseSeek() {
-      const input = document.getElementById("seekSeconds");
-      const step = parseFloat(document.getElementById("customValue").value) || 1;
-      const value = parseFloat(input.value) || 0;
-      input.value = Math.max(0, value - step).toFixed(1);
-    }
-
-
-    // Gán click chuột
-    document.getElementById("increaseSeekBtn").addEventListener("click", increaseSeek);
-    document.getElementById("decreaseSeekBtn").addEventListener("click", decreaseSeek);
-
-    // Gán chạm trên mobile
-    addTouchSupport("increaseSeekBtn", increaseSeek);
-    addTouchSupport("decreaseSeekBtn", decreaseSeek);
-  </script>
+  <script src="main.js" defer></script>
 </body>
 
 </html>
