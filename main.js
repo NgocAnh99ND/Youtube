@@ -93,18 +93,8 @@ function loadSvg(targetId, filePath) {
         .catch(err => console.error(`Lỗi tải ${filePath}:`, err));
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-
-    // Load file svg into index.html
-    loadSvg("icon-fast-forward", "icons/fast-forward.svg");
-    loadSvg("icon-rewind", "icons/rewind.svg");
-    loadSvg("icon-chevron-up", "icons/chevrons-up.svg");
-    loadSvg("icon-chevron-down", "icons/chevrons-down.svg");
-    loadSvg("icon-maximize", "icons/maximize.svg");
-    loadSvg("icon-minimize", "icons/minimize.svg");
-
-    
-    // Execute for activations on mobile
+// For Mobile
+window.addEventListener("DOMContentLoaded", () => {    
     // Gán phím Enter vào ô tìm kiếm
     document.getElementById("linkInput").addEventListener("keydown", e => {
         if (e.key === "Enter") loadVideoFromLink();
