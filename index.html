@@ -97,7 +97,7 @@
     }
 
     #fullscreenControls button {
-      font-size: 18px;
+      font-size: 20px;
       padding: 6px 10px;
     }
   </style>
@@ -186,6 +186,40 @@
         alert("Link không hợp lệ.");
       }
     }
+
+    // Đăng ký thêm sự kiện 'touchstart' để hỗ trợ mobile
+    function addTouchSupport(id, handler) {
+      const btn = document.getElementById(id);
+      if (btn) {
+        btn.addEventListener('touchstart', e => {
+          e.preventDefault(); // ngăn chặn delay chạm trên mobile
+          handler();
+        });
+      }
+    }
+
+    function addTouchSupportClass(className, handlerMap) {
+      const buttons = document.getElementsByClassName(className);
+      Array.from(buttons).forEach(btn => {
+        const text = btn.textContent.trim();
+        if (handlerMap[text]) {
+          btn.addEventListener('touchstart', e => {
+            e.preventDefault();
+            handlerMap[text]();
+          });
+        }
+      });
+    }
+
+    // Gán sự kiện chạm cho các nút trong fullscreenControls
+    addTouchSupport('btnEnter', enterFullscreen);
+    addTouchSupport('btnExit', exitFullscreen2);
+
+    // Gán sự kiện chạm cho các nút ⏪ và ⏩ theo nội dung nút
+    addTouchSupportClass('fs-btn', {
+      '⏪': seekBackward,
+      '⏩': seekForward
+    });
   </script>
 </body>
 
