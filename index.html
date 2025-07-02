@@ -71,22 +71,45 @@
 
     #rightButtons {
       position: fixed;
-      top: 40%;
-      right: 10px;
+      top: 24%;
+      right: 11px;
       z-index: 1100;
-      display: none;
+      display: flex;
+      align-items: center;
       flex-direction: column;
-      gap: 10px;
+      width: 70px;
+    }
+
+    #rightButtons button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background-color: #cc0000;
+      border: none;
+      border-radius: 6px;
+      width: 47px;
+      height: 47px;
+      cursor: pointer;
+    }
+
+    #rightButtons svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+      pointer-events: none;
     }
 
     .fs-btn {
-      padding: 10px 15px;
+      padding: 10px 10px;
       background-color: #cc0000;
       color: white;
       border: none;
       border-radius: 6px;
       font-size: 20px;
       cursor: pointer;
+      width: 47px;
+      height: 47px;
     }
 
     #fullscreenControls {
@@ -94,11 +117,41 @@
       bottom: 10px;
       right: 10px;
       z-index: 1050;
+      padding: 10px;
     }
 
     #fullscreenControls button {
-      font-size: 20px;
-      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background-color: #cc0000;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #fullscreenControls svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+      pointer-events: none;
+    }
+
+    #increaseSeekBtn,
+    #decreaseSeekBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      width: 47px;
+      height: 47px;
+    }
+
+    #increaseSeekBtn input,
+    #decreaseSeekBtn input {
+      font-size: 14px;
+      padding: 2px;
     }
   </style>
 </head>
@@ -118,14 +171,65 @@
   </div>
 
   <div id="rightButtons">
-    <button class="fs-btn" onclick="seekForward()">⏩</button>
-    <button class="fs-btn" onclick="seekBackward()">⏪</button>
-    <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2" style="width: 60px; text-align: center;">
+    <input type="number" id="seekSeconds" value="1" min="0.2" step="0.2" style="width: 45px; text-align: center;">
+    <button class="fs-btn" onclick="seekForward()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-fast-forward-icon lucide-fast-forward">
+        <polygon points="13 19 22 12 13 5 13 19" />
+        <polygon points="2 19 11 12 2 5 2 19" />
+      </svg>
+    </button>
+    <button class="fs-btn" onclick="seekBackward()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-rewind-icon lucide-rewind">
+        <polygon points="11 19 2 12 11 5 11 19" />
+        <polygon points="22 19 13 12 22 5 22 19" />
+      </svg>
+    </button>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+      <button id="increaseSeekBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+          <path d="m17 11-5-5-5 5" />
+          <path d="m17 18-5-5-5 5" />
+        </svg>
+      </button>
+      <button id="decreaseSeekBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-chevrons-down-icon lucide-chevrons-down">
+          <path d="m7 6 5 5 5-5" />
+          <path d="m7 13 5 5 5-5" />
+        </svg>
+      </button>
+      <input type="number" id="customValue" value="0.2" min="0.2" step="0.2" style="width: 45px; text-align: center;">
+    </div>
   </div>
 
   <div id="fullscreenControls">
-    <button id="btnEnter" onclick="enterFullscreen()">🔳</button>
-    <button id="btnExit" onclick="exitFullscreen2()" style="display: none;">❌</button>
+    <button id="btnEnter" onclick="enterFullscreen()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-maximize-icon lucide-maximize">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+        <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+        <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+        <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+      </svg>
+    </button>
+    <button id="btnExit" onclick="exitFullscreen2()" style="display: none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-minimize-icon lucide-minimize">
+        <path d="M8 3v3a2 2 0 0 1-2 2H3" />
+        <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
+        <path d="M3 16h3a2 2 0 0 1 2 2v3" />
+        <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
+      </svg>
+    </button>
   </div>
 
   <script src="https://www.youtube.com/iframe_api"></script>
@@ -159,14 +263,10 @@
     function exitFullscreen2() {
       const wrapper = document.getElementById("playerWrapper");
       wrapper.classList.remove("fullscreen");
-      document.getElementById("rightButtons").style.display = "none";
+      document.getElementById("rightButtons").style.display = "flex";
       document.getElementById("btnEnter").style.display = "inline-block";
       document.getElementById("btnExit").style.display = "none";
     }
-
-    document.getElementById("searchInput").addEventListener("keydown", e => {
-      if (e.key === "Enter") searchYouTube();
-    });
 
     document.getElementById("linkInput").addEventListener("keydown", e => {
       if (e.key === "Enter") loadVideoFromLink();
@@ -220,6 +320,29 @@
       '⏪': seekBackward,
       '⏩': seekForward
     });
+
+    function increaseSeek() {
+      const input = document.getElementById("seekSeconds");
+      const step = parseFloat(document.getElementById("customValue").value) || 1;
+      const value = parseFloat(input.value) || 0;
+      input.value = (value + step).toFixed(1);
+    }
+
+    function decreaseSeek() {
+      const input = document.getElementById("seekSeconds");
+      const step = parseFloat(document.getElementById("customValue").value) || 1;
+      const value = parseFloat(input.value) || 0;
+      input.value = Math.max(0, value - step).toFixed(1);
+    }
+
+
+    // Gán click chuột
+    document.getElementById("increaseSeekBtn").addEventListener("click", increaseSeek);
+    document.getElementById("decreaseSeekBtn").addEventListener("click", decreaseSeek);
+
+    // Gán chạm trên mobile
+    addTouchSupport("increaseSeekBtn", increaseSeek);
+    addTouchSupport("decreaseSeekBtn", decreaseSeek);
   </script>
 </body>
 
