@@ -5,12 +5,14 @@ function onYouTubeIframeAPIReady() {
 }
 
 function seekForward() {
+    console.log("seekForward")
     const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
     const currentTime = player.getCurrentTime();
     player.seekTo(currentTime + seconds, true);
 }
 
 function seekBackward() {
+    console.log("seekBackward")
     const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
     const currentTime = player.getCurrentTime();
     player.seekTo(Math.max(0, currentTime - seconds), true);
