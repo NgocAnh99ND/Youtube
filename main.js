@@ -21,14 +21,14 @@ function enterFullscreen() {
     wrapper.classList.add("fullscreen");
     document.getElementById("rightButtons").style.display = "flex";
     document.getElementById("btnEnter").style.display = "none";
-    document.getElementById("btnExit").style.display = "inline-block";
+    document.getElementById("btnExit").style.display = "flex";
 }
 
 function exitFullscreen2() {
     const wrapper = document.getElementById("playerWrapper");
     wrapper.classList.remove("fullscreen");
     document.getElementById("rightButtons").style.display = "flex";
-    document.getElementById("btnEnter").style.display = "inline-block";
+    document.getElementById("btnEnter").style.display = "flex";
     document.getElementById("btnExit").style.display = "none";
 }
 
