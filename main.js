@@ -7,7 +7,9 @@ function onYouTubeIframeAPIReady() {
 function seekForward() {
     console.log("seekForward")
     const seconds = parseFloat(document.getElementById("seekSeconds").value) || 0.2;
+    console.log("LOG2")
     const currentTime = player.getCurrentTime();
+    console.log("LOG3", currentTime)
     player.seekTo(currentTime + seconds, true);
 }
 
