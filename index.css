@@ -6,10 +6,15 @@ body {
     text-align: center;
 }
 
+.inputGroup {
+    z-index: 1500;
+    position: relative;
+}
+
 input[type="text"] {
     padding: 10px;
     width: 60%;
-    max-width: 400px;
+    width: 425px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -52,18 +57,29 @@ button:hover {
     left: 0;
     width: 100vw;
     height: 90vh;
-    margin: 0;
     z-index: 1000;
+    margin: 0;
 }
 
 #playerWrapper.fullscreen #player {
     height: 100%;
 }
 
+#playerWrapper.fullscreen #rightButtons {
+    position: fixed;
+    right: 35px;
+    z-index: 1600;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 70px;
+    margin-top: 20px;
+}
+
 #rightButtons {
     position: fixed;
     right: 50px;
-    z-index: 1100;
+    z-index: 2000;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -142,4 +158,32 @@ button:hover {
 #decreaseSeekBtn input {
     font-size: 14px;
     padding: 2px;
+}
+
+#showSearchBtn {
+    position: fixed;
+    top: 10px;
+    left: 0px;
+    margin: 0;
+    z-index: 1600;
+    display: none;
+}
+
+
+@media (max-width: 900px),
+(max-height: 500px) {
+
+    #rightButtons button,
+    .fs-btn,
+    #increaseSeekBtn,
+    #decreaseSeekBtn {
+        width: 42px;
+        height: 42px;
+    }
+
+    #seekSeconds,
+    #customValue {
+        width: 36px;
+        font-size: 14px;
+    }
 }

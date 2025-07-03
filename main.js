@@ -1,4 +1,6 @@
 let player;
+let isFullscreen = 0;
+let isHidden = 0;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player("player", {});
@@ -21,19 +23,25 @@ function seekBackward() {
 }
 
 function enterFullscreen() {
+    isFullscreen = 1;
+    console.log("Fullscreen", isFullscreen);
     const wrapper = document.getElementById("playerWrapper");
     wrapper.classList.add("fullscreen");
     document.getElementById("rightButtons").style.display = "flex";
     document.getElementById("btnEnter").style.display = "none";
     document.getElementById("btnExit").style.display = "flex";
+    document.getElementById("showSearchBtn").style.display = "block";
 }
 
 function exitFullscreen2() {
+    isFullscreen = 0;
+    console.log("notFullscreen", isFullscreen);
     const wrapper = document.getElementById("playerWrapper");
     wrapper.classList.remove("fullscreen");
     document.getElementById("rightButtons").style.display = "flex";
     document.getElementById("btnEnter").style.display = "flex";
     document.getElementById("btnExit").style.display = "none";
+    document.getElementById("showSearchBtn").style.display = "none";
 }
 
 function extractVideoId(url) {
@@ -98,7 +106,7 @@ function loadSvg(targetId, filePath) {
 }
 
 // For Mobile
-window.addEventListener("DOMContentLoaded", () => {    
+window.addEventListener("DOMContentLoaded", () => {
     // Gán phím Enter vào ô tìm kiếm
     document.getElementById("linkInput").addEventListener("keydown", e => {
         if (e.key === "Enter") loadVideoFromLink();
@@ -119,3 +127,19 @@ window.addEventListener("DOMContentLoaded", () => {
         '⏩': seekForward
     });
 });
+
+function toggleSearchBar() {
+  const searchBar = document.getElementById("searchBar");
+//   const iframe = document.getElementById("player");
+
+  if (isHidden === 0) {
+    searchBar.style.display = "block";
+    // iframe.style.pointerEvents = "none"; // Tắt bắt chuột
+    isHidden = 1;
+  } else {
+    searchBar.style.display = "none";
+    // iframe.style.pointerEvents = "auto"; // Bật lại
+    isHidden = 0;
+  }
+}
+
