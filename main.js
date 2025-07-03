@@ -24,40 +24,90 @@ function seekBackward() {
 
 function enterFullscreen() {
     isFullscreen = 1;
-    console.log("Fullscreen", isFullscreen);
     const wrapper = document.getElementById("playerWrapper");
     wrapper.classList.add("fullscreen");
     document.getElementById("rightButtons").style.display = "flex";
     document.getElementById("btnEnter").style.display = "none";
     document.getElementById("btnExit").style.display = "flex";
     document.getElementById("showSearchBtn").style.display = "block";
+
+    // Ẩn searchBar và cập nhật trạng thái
+    const searchBar = document.getElementById("searchBar");
+    searchBar.style.display = "none";
+    isHidden = 1;
 }
 
 function exitFullscreen2() {
     isFullscreen = 0;
-    console.log("notFullscreen", isFullscreen);
     const wrapper = document.getElementById("playerWrapper");
     wrapper.classList.remove("fullscreen");
     document.getElementById("rightButtons").style.display = "flex";
     document.getElementById("btnEnter").style.display = "flex";
     document.getElementById("btnExit").style.display = "none";
     document.getElementById("showSearchBtn").style.display = "none";
-}
 
-function extractVideoId(url) {
-    const match = url.match(/(?:youtu\.be\/|v=)([\w-]{11})/);
-    return match ? match[1] : null;
+    // Luôn hiển lại searchBar khi thoát fullscreen
+    const searchBar = document.getElementById("searchBar");
+    searchBar.style.display = "flex";
+    isHidden = 0;
 }
 
 function loadVideoFromLink() {
-    const url = document.getElementById("linkInput").value.trim();
-    const videoId = extractVideoId(url);
+    const input = document.getElementById("linkInput");
+    const link = input.value.trim();
+    if (!link) return;
+
+    // Lưu link vào localStorage
+    let history = JSON.parse(localStorage.getItem("youtubeLinks") || "[]");
+    if (!history.includes(link)) {
+        history.unshift(link); // Thêm đầu danh sách
+        if (history.length > 20) history = history.slice(0, 20); // Giới hạn 20 link
+        localStorage.setItem("youtubeLinks", JSON.stringify(history));
+    }
+
+    // Phát video
+    const videoId = extractVideoId(link);
     if (videoId) {
-        player.loadVideoById(videoId);
-    } else {
-        alert("Link không hợp lệ.");
+        const player = document.getElementById("player");
+        player.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=1&cc_load_policy=1&rel=0`;
     }
 }
+
+function extractVideoId(link) {
+    const reg = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^\s&#?/]+)/;
+    const match = link.match(reg);
+    return match ? match[1] : null;
+}
+
+document.getElementById("linkInput").addEventListener("focus", () => {
+    const suggestionsDiv = document.getElementById("suggestions");
+    const history = JSON.parse(localStorage.getItem("youtubeLinks") || "[]");
+
+    if (history.length > 0) {
+        suggestionsDiv.innerHTML = "";
+        history.forEach(link => {
+            const item = document.createElement("div");
+            item.textContent = link;
+            item.style.padding = "6px";
+            item.style.cursor = "pointer";
+            item.addEventListener("click", () => {
+                document.getElementById("linkInput").value = link;
+                suggestionsDiv.style.display = "none";
+            });
+            suggestionsDiv.appendChild(item);
+        });
+        suggestionsDiv.style.display = "block";
+    }
+});
+
+// Ẩn suggestion khi click ra ngoài
+document.addEventListener("click", (e) => {
+    const suggestionsDiv = document.getElementById("suggestions");
+    const input = document.getElementById("linkInput");
+    if (!suggestionsDiv.contains(e.target) && e.target !== input) {
+        suggestionsDiv.style.display = "none";
+    }
+});
 
 function increaseSeek() {
     const input = document.getElementById("seekSeconds");
@@ -106,6 +156,9 @@ function loadSvg(targetId, filePath) {
 }
 
 // For Mobile
+let historyLinks = JSON.parse(localStorage.getItem("linkHistory")) || [];
+let suggestionsBox;
+
 window.addEventListener("DOMContentLoaded", () => {
     // Gán phím Enter vào ô tìm kiếm
     document.getElementById("linkInput").addEventListener("keydown", e => {
@@ -129,17 +182,26 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function toggleSearchBar() {
-  const searchBar = document.getElementById("searchBar");
-//   const iframe = document.getElementById("player");
+    const searchBar = document.getElementById("searchBar");
 
-  if (isHidden === 0) {
-    searchBar.style.display = "block";
-    // iframe.style.pointerEvents = "none"; // Tắt bắt chuột
-    isHidden = 1;
-  } else {
-    searchBar.style.display = "none";
-    // iframe.style.pointerEvents = "auto"; // Bật lại
-    isHidden = 0;
-  }
+    if (isHidden === 0) {
+        searchBar.style.display = "flex";
+        isHidden = 1;
+    } else {
+        searchBar.style.display = "none";
+        isHidden = 0;
+    }
 }
+
+function pasteFromClipboard() {
+    navigator.clipboard.readText()
+        .then(text => {
+            document.getElementById("linkInput").value = text;
+        })
+        .catch(err => {
+            console.error("Không thể dán từ clipboard:", err);
+            alert("Trình duyệt không cho phép truy cập clipboard.\nHãy dùng Ctrl+V thủ công.");
+        });
+}
+
 
