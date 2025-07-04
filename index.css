@@ -25,6 +25,10 @@ input[type="text"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 5px 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: 30px;
 }
 
 button {
