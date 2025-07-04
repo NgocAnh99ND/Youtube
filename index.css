@@ -15,13 +15,12 @@ body {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px 10px;
     box-sizing: border-box;
 }
 
 input[type="text"] {
     padding: 10px;
-    width: 383.33px;
+    width: 407px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -37,6 +36,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     margin: 3px;
+    width: 60px;
 }
 
 button:hover {
@@ -95,7 +95,7 @@ button:hover {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 90vh;
+    height: 95vh;
     z-index: 1000;
     margin: 0;
 }
@@ -112,7 +112,7 @@ button:hover {
     align-items: center;
     flex-direction: column;
     width: 70px;
-    margin-top: 20px;
+    margin-top: 70px;
 }
 
 #rightButtons {
@@ -133,8 +133,8 @@ button:hover {
     background-color: #cc0000;
     border: none;
     border-radius: 6px;
-    width: 47px;
-    height: 47px;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
 }
 
@@ -200,12 +200,52 @@ button:hover {
 
 #showSearchBtn {
     position: fixed;
-    top: 28px;
     left: 0px;
     margin: 0;
     z-index: 1600;
     display: none;
+    width: 80px;
+    height: 50px;
 }
+
+.inputWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.clear-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    color: #888;
+}
+
+.pasteBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: none;
+    background-color: #DDDDDD;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 37.33px;
+}
+
+.pasteBtn:hover {
+    background-color: #CCCCCC;
+}
+
+.pasteBtn img {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
 
 @media (max-width: 900px),
 (max-height: 500px) {

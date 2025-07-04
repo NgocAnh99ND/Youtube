@@ -11,9 +11,14 @@
 
   <div class="mainContainer">
     <div class="inputGroup" id="searchBar">
-      <input type="text" id="linkInput" placeholder="Nhập link YouTube...">
-      <button onclick="pasteFromClipboard()">Dán</button>
-      <button onclick="loadVideoFromLink()">Phát từ link</button>
+      <div class="inputWrapper">
+        <input type="text" id="linkInput" placeholder="Nhập link YouTube...">
+        <img onclick="clearInput()" class= "clear-icon" src="icons/deleteButton.svg" alt="Delete button" width="20" height="20">
+      </div>
+      <button class="pasteBtn" onclick="pasteFromClipboard()">
+        <img src="icons/clipboard-paste.svg" alt="Paste button" width="24" height="24">
+      </button>
+      <button onclick="loadVideoFromLink()">Play</button>
       <div id="suggestions"></div>
     </div>
 

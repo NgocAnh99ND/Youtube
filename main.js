@@ -204,4 +204,8 @@ function pasteFromClipboard() {
         });
 }
 
+function clearInput() {
+    document.getElementById('linkInput').value = '';
+  }
+
 
