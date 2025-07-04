@@ -1,6 +1,5 @@
 .body {
     background-color: #FFFFFF;
-    font-family: "Roboto", "Arial", sans-serif;;
 }
 
 .video-item {
@@ -22,12 +21,14 @@
     font-size: 20px;
     margin-top: 5px;
     color: black;
+    font-family: "Roboto", "Arial", sans-serif;
 }
 
 .resultTitle {
     display: flex;
     align-items: center;
     gap: 5px;
+    font-family: "Roboto", "Arial", sans-serif;
 }
 
 .search-container {
