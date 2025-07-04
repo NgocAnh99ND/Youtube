@@ -10,10 +10,17 @@
 <body>
 
   <div class="mainContainer">
+    <div class="search-container" id="searchFromKey">
+      <input type="text" id="searchInput" placeholder="Search">
+      <img onclick="clearInputFromKey()" class="clearIconFromKey" src="icons/deleteButton.svg" alt="Delete button" width="20"
+        height="20">
+      <button class="search-button" onclick="search()">🔍</button>
+    </div>
     <div class="inputGroup" id="searchBar">
       <div class="inputWrapper">
-        <input type="text" id="linkInput" placeholder="Nhập link YouTube...">
-        <img onclick="clearInput()" class= "clear-icon" src="icons/deleteButton.svg" alt="Delete button" width="20" height="20">
+        <input type="text" id="linkInput" placeholder="Enter link YouTube...">
+        <img onclick="clearInput()" class="clear-icon" src="icons/deleteButton.svg" alt="Delete button" width="20"
+          height="20">
       </div>
       <button class="pasteBtn" onclick="pasteFromClipboard()">
         <img src="icons/clipboard-paste.svg" alt="Paste button" width="24" height="24">

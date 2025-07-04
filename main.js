@@ -33,7 +33,9 @@ function enterFullscreen() {
 
     // Ẩn searchBar và cập nhật trạng thái
     const searchBar = document.getElementById("searchBar");
+    const searchFromKey = document.getElementById("searchFromKey");
     searchBar.style.display = "none";
+    searchFromKey.style.display = "none";
     isHidden = 1;
 }
 
@@ -48,7 +50,9 @@ function exitFullscreen2() {
 
     // Luôn hiển lại searchBar khi thoát fullscreen
     const searchBar = document.getElementById("searchBar");
+    const searchFromKey = document.getElementById("searchFromKey");
     searchBar.style.display = "flex";
+    searchFromKey.style.display = "flex";
     isHidden = 0;
 }
 
@@ -183,12 +187,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function toggleSearchBar() {
     const searchBar = document.getElementById("searchBar");
+    const searchFromKey = document.getElementById("searchFromKey");
 
     if (isHidden === 0) {
         searchBar.style.display = "flex";
+        searchFromKey.style.display = "flex";
         isHidden = 1;
     } else {
         searchBar.style.display = "none";
+        searchFromKey.style.display = "none";
         isHidden = 0;
     }
 }
@@ -206,6 +213,33 @@ function pasteFromClipboard() {
 
 function clearInput() {
     document.getElementById('linkInput').value = '';
-  }
+}
 
+function clearInputFromKey() {
+    document.getElementById('searchInput').value = '';
+}
 
+function search() {
+    const keyword = document.getElementById("searchInput").value.trim();
+    if (!keyword) return;
+
+    localStorage.setItem("searchKeyword", keyword);
+
+    window.location.href = "result.html";
+}
+
+window.onload = () => {
+    const videoUrl = localStorage.getItem("selectedVideoUrl");
+    if (videoUrl) {
+        const input = document.getElementById("linkInput");
+        input.value = videoUrl;
+
+        // Gọi phát video
+        if (typeof loadVideoFromLink === "function") {
+            loadVideoFromLink();
+        }
+
+        // Xóa để lần sau không tự động phát lại
+        localStorage.removeItem("selectedVideoUrl");
+    }
+};

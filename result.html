@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kết quả tìm kiếm</title>
+    <link rel="stylesheet" href="result.css">
+</head>
+
+<body>
+    <img onclick="backToMainScreen()" src="icons/backIcon.svg" alt="Back Icon" width="24" height="24">
+    <div class="search-container" id="searchFromKey">
+        <input type="text" id="searchInput" placeholder="Search">
+        <img onclick="clearInputFromKey()" class="clearIconFromKey" src="icons/deleteButton.svg" alt="Delete button"
+            width="20" height="20">
+        <button class="search-button" onclick="search()">🔍</button>
+    </div>
+    <div class="resultTitle">
+        <h2>Kết quả tìm kiếm</h2>
+    </div>
+    <div id="resultsContainer"></div>
+
+    <script src="result.js"></script>
+</body>
+
+</html>
