@@ -361,3 +361,19 @@ document.addEventListener("click", (e) => {
         suggestionsListDiv.style.display = "none";
     }
 });
+
+// Hàm remove history localStorage
+function removeHistory() {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("note_")) {
+            localStorage.removeItem(key);
+            i--; // điều chỉnh chỉ số sau khi xoá
+        }
+    }
+    alert("Đã xoá tất cả các mục bắt đầu bằng 'note_'");
+}
+
+// document.getElementById("clearLocalStorage").addEventListener("click", () => {
+//     removeHistory();
+// });

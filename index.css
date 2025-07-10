@@ -345,10 +345,10 @@ button:hover {
 
 #closePopupBtn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 32px;
-    height: 32px;
+    top: 3px;
+    right: 1px;
+    width: 20px;
+    height: 20px;
     border: none;
     border-radius: 6px;
     display: flex;
@@ -374,12 +374,15 @@ button:hover {
     border: 1px solid #ccc;
     resize: none;
     box-sizing: border-box;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-y: auto;
 }
 
 #saveTitle {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -406,7 +409,14 @@ button:hover {
     background-color: #0056b3;
 }
 
+.suggestion-wrapper {
+    position: relative;
+    width: 100%;
+    top: 5px;
+}
+
 #suggestionsList {
+    position: absolute;
     background-color: white;
     border: 1px solid #ccc;
     max-height: 150px;
@@ -428,7 +438,28 @@ button:hover {
     background-color: #f0f0f0;
 }
 
+#clearLocalStorage {
+    background-color: #CCCCCC;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+#clearLocalStorage:hover {
+    background-color: #888
+}
+
+#attachFiles {
+    background-color: #CCCCCC;
+    width: 45px;
+    height: 45px;
+}
+
+#attachFiles:hover {
+    background-color: #888
+}
 
 @media (max-width: 900px),
 (max-height: 500px) {
