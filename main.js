@@ -22,6 +22,10 @@ function seekBackward() {
     player.seekTo(Math.max(0, currentTime - seconds), true);
 }
 
+function isMobile() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+}
+
 function enterFullscreen() {
     isFullscreen = 1;
     const wrapper = document.getElementById("playerWrapper");
@@ -37,6 +41,11 @@ function enterFullscreen() {
     searchBar.style.display = "none";
     searchFromKey.style.display = "none";
     isHidden = 1;
+
+    // 👉 Hiện nút newWordPopUp nếu là mobile
+    if (isMobile()) {
+        document.getElementById("newWordPopUp").style.display = "block";
+    }
 }
 
 function exitFullscreen2() {
@@ -54,7 +63,21 @@ function exitFullscreen2() {
     searchBar.style.display = "flex";
     searchFromKey.style.display = "flex";
     isHidden = 0;
+
+    // 👉 Ẩn nút newWordPopUp
+    document.getElementById("newWordPopUp").style.display = "none";
 }
+
+window.addEventListener("resize", () => {
+    const newWordBtn = document.getElementById("newWordPopUp");
+
+    if (isFullscreen && isMobile()) {
+        newWordBtn.style.display = "block";
+    } else {
+        newWordBtn.style.display = "none";
+    }
+});
+
 
 function loadVideoFromLink() {
     const input = document.getElementById("linkInput");
@@ -243,3 +266,98 @@ window.onload = () => {
         localStorage.removeItem("selectedVideoUrl");
     }
 };
+
+function openPopup() {
+    document.getElementById("popupOverlay").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popupOverlay").style.display = "none";
+}
+
+function savePopupText() {
+    const title = document.getElementById("saveTitle").value.trim();
+    const content = document.getElementById("popupTextarea").value.trim();
+
+    if (!title) {
+        alert("Vui lòng nhập tên bản lưu.");
+        return;
+    }
+
+    if (!content) {
+        alert("Vui lòng nhập nội dung cần lưu.");
+        return;
+    }
+
+    // Lưu vào localStorage theo tên bản lưu
+    localStorage.setItem("note_" + title, content);
+    alert("Đã lưu với tên: " + title);
+}
+
+// Hàm hiển thị các bản lưu trong localStorage
+function renderSuggestions(keyword = "") {
+    const suggestionsListDiv = document.getElementById("suggestionsList");
+    suggestionsListDiv.innerHTML = "";
+
+    const normalizedKeyword = keyword.trim().toLowerCase();
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+
+        // Chỉ xử lý các bản lưu có prefix "note_"
+        if (key.startsWith("note_")) {
+            const title = key.slice(5); // bỏ tiền tố "note_"
+            const value = localStorage.getItem(key);
+
+            const matchTitle = title.toLowerCase().includes(normalizedKeyword);
+            const matchContent = value.toLowerCase().includes(normalizedKeyword);
+
+            // Hiển thị nếu keyword rỗng hoặc khớp tiêu đề/nội dung
+            if (normalizedKeyword === "" || matchTitle || matchContent) {
+                const item = document.createElement("div");
+                item.innerHTML = `<strong>${title}</strong><br><small>${value.slice(0, 100)}...</small>`;
+                item.style.padding = "8px";
+                item.style.cursor = "pointer";
+                item.style.borderBottom = "1px solid #eee";
+
+                item.addEventListener("click", () => {
+                    document.getElementById("saveTitle").value = title;
+                    document.getElementById("popupTextarea").value = value;
+                    suggestionsListDiv.style.display = "none";
+                });
+
+                suggestionsListDiv.appendChild(item);
+            }
+        }
+    }
+
+    // Hiển thị nếu có dữ liệu
+    suggestionsListDiv.style.display =
+        suggestionsListDiv.children.length > 0 ? "block" : "none";
+}
+
+const saveTitleInput = document.getElementById("saveTitle");
+
+// Gọi khi gõ phím
+saveTitleInput.addEventListener("input", () => {
+    renderSuggestions(saveTitleInput.value);
+});
+
+// Gọi khi click hoặc focus để hiện toàn bộ nếu trống
+saveTitleInput.addEventListener("focus", () => {
+    renderSuggestions(saveTitleInput.value);
+});
+
+saveTitleInput.addEventListener("click", () => {
+    renderSuggestions(saveTitleInput.value);
+});
+
+
+// Ẩn suggestion khi click ra ngoài
+document.addEventListener("click", (e) => {
+    const suggestionsListDiv = document.getElementById("suggestionsList");
+    const input = document.getElementById("saveTitle");
+    if (!suggestionsListDiv.contains(e.target) && e.target !== input) {
+        suggestionsListDiv.style.display = "none";
+    }
+});

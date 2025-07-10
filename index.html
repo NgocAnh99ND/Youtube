@@ -12,8 +12,8 @@
   <div class="mainContainer">
     <div class="search-container" id="searchFromKey">
       <input type="text" id="searchInput" placeholder="Search">
-      <img onclick="clearInputFromKey()" class="clearIconFromKey" src="icons/deleteButton.svg" alt="Delete button" width="20"
-        height="20">
+      <img onclick="clearInputFromKey()" class="clearIconFromKey" src="icons/deleteButton.svg" alt="Delete button"
+        width="20" height="20">
       <button class="search-button" onclick="search()">🔍</button>
     </div>
     <div class="inputGroup" id="searchBar">
@@ -66,6 +66,24 @@
     <button id="showSearchBtn" onclick="toggleSearchBar()">
       Tìm
     </button>
+    <button id="newWordPopUp" onclick="openPopup()">
+      <img src="icons/message-square-more.svg" alt="Pop-up new words" width="24" height="24">
+    </button>
+
+    <div id="popupOverlay">
+      <div id="popupContent">
+        <button id="closePopupBtn" onclick="closePopup()">
+          <img onclick="" src="icons/xIcon.svg" alt="Back Icon" width="24" height="24">
+        </button>
+        <input type="text" id="saveTitle" placeholder="Nhập tên bản lưu..." />
+        <div id="suggestionsList"></div>
+        <textarea id="popupTextarea" placeholder="Paste nội dung tại đây..."></textarea>
+        <div class="popup-footer">
+          <button id="savePopupBtn" onclick="savePopupText()">Lưu</button>
+        </div>
+      </div>
+    </div>
+
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="main.js" defer></script>
   </div>
