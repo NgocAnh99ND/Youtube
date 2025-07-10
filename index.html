@@ -79,10 +79,17 @@
         </button>
         <div class="suggestion-wrapper">
           <input type="text" id="saveTitle" placeholder="Nhập tên bản lưu..." />
+           <img onclick="clearSaveTitleInput()" class="clear-title" src="icons/deleteButton.svg" alt="Delete button" width="20"
+          height="20">
           <div id="suggestionsList"></div>
         </div>
         <textarea id="popupTextarea" placeholder="Paste nội dung tại đây..."></textarea>
+
+
         <div class="popup-footer">
+          <button id="scrollToTopBtn" onclick="scrollToTopOfTextarea()">
+            <img onclick="" src="icons/arrow-up.svg" alt="Scroll Icon" width="20" height="20">
+          </button>
           <button id="savePopupBtn" onclick="savePopupText()">Lưu</button>
           <button id="clearLocalStorage" onclick="removeHistory()">
             <img src="icons/trash.svg" alt="Clear localStorage" width="20" height="20" />

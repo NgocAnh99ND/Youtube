@@ -392,6 +392,26 @@ button:hover {
     overflow-y: auto;
 }
 
+#scrollToTopBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;           /* Chiều rộng */
+  height: 30px;          /* Chiều cao */
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 50%;    /* Hình tròn */
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 170px;
+}
+
+#scrollToTopBtn:hover {
+    background-color: #ddd;
+}
+
+
 #saveTitle {
     width: 100%;
     padding: 10px;
@@ -416,6 +436,8 @@ button:hover {
     border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
+    width: 55px;
+    height: 30px;
 }
 
 #savePopupBtn:hover {
@@ -472,6 +494,17 @@ button:hover {
 
 #attachFiles:hover {
     background-color: #888
+}
+
+.clear-title {
+    position: absolute;
+    right: 8px;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    color: #888;
 }
 
 @media (max-width: 900px),

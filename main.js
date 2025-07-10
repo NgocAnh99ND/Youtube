@@ -379,25 +379,36 @@ function removeHistory() {
 // });
 
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    events: {
-      'onReady': onPlayerReady
-    }
-  });
-  console.log("log1",player)
+    player = new YT.Player('player', {
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+    console.log("log1", player)
 }
 
 function onPlayerReady(event) {
-  console.log("log2", event)
+    console.log("log2", event)
 }
 
 function togglePlayPause() {
-  if (!player) return;
-  const state = player.getPlayerState();
-  if (state === YT.PlayerState.PLAYING) {
-    player.pauseVideo();
-  } else if (state === YT.PlayerState.PAUSED || state === YT.PlayerState.ENDED) {
-    player.playVideo();
-  }
+    if (!player) return;
+    const state = player.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+    } else if (state === YT.PlayerState.PAUSED || state === YT.PlayerState.ENDED) {
+        player.playVideo();
+    }
+}
+
+function scrollToTopOfTextarea() {
+    const textarea = document.getElementById("popupTextarea");
+    if (textarea) {
+        textarea.scrollTop = 0;
+    }
+}
+
+function clearSaveTitleInput() {
+    document.getElementById('saveTitle').value = '';
 }
 
