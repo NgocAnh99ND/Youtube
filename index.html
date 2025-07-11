@@ -12,17 +12,17 @@
   <div class="mainContainer">
     <div class="search-container" id="searchFromKey">
       <input type="text" id="searchInput" placeholder="Search">
-      <img onclick="clearInputFromKey()" class="clearIconFromKey" src="icons/deleteButton.svg" alt="Delete button"
+      <img onclick="clearInput('searchInput')" class="clearIconFromKey" src="icons/deleteButton.svg" alt="Delete button"
         width="20" height="20">
       <button class="search-button" onclick="search()">🔍</button>
     </div>
     <div class="inputGroup" id="searchBar">
       <div class="inputWrapper">
         <input type="text" id="linkInput" placeholder="Enter link YouTube...">
-        <img onclick="clearInput()" class="clear-icon" src="icons/deleteButton.svg" alt="Delete button" width="20"
-          height="20">
+        <img onclick="clearInput('linkInput')" class="clear-icon" src="icons/deleteButton.svg" alt="Delete button"
+          width="20" height="20">
       </div>
-      <button class="pasteBtn" onclick="pasteFromClipboard()">
+      <button class="pasteBtn" onclick="pasteFromClipboard('linkInput')">
         <img src="icons/clipboard-paste.svg" alt="Paste button" width="24" height="24">
       </button>
       <button onclick="loadVideoFromLink()">Play</button>
@@ -79,14 +79,23 @@
         </button>
         <div class="suggestion-wrapper">
           <input type="text" id="saveTitle" placeholder="Nhập tên bản lưu..." />
-           <img onclick="clearSaveTitleInput()" class="clear-title" src="icons/deleteButton.svg" alt="Delete button" width="20"
-          height="20">
+          <img onclick="clearInput('saveTitle')" class="clear-title" src="icons/deleteButton.svg" alt="Delete button"
+            width="20" height="20">
           <div id="suggestionsList"></div>
         </div>
         <textarea id="popupTextarea" placeholder="Paste nội dung tại đây..."></textarea>
-
-
+        <img onclick="clearInput('popupTextarea')" class="clear-textarea" src="icons/deleteButton.svg"
+          alt="Delete button" width="20" height="20">
         <div class="popup-footer">
+          <div class="searchTextArea" id="searchFromArea">
+            <input type="text" id="searchArea" placeholder="Search">
+            <img onclick="clearInput('searchArea')" class="clearIconFromKey" src="icons/deleteButton.svg"
+              alt="Delete button" width="20" height="20">
+            <button class="searchArea" onclick="searchFromTextArea()">🔍</button>
+          </div>
+          <button class="paste-textarea" onclick="pasteFromClipboard('popupTextarea')">
+            <img src="icons/clipboard-paste.svg" alt="Paste button" width="24" height="24">
+          </button>
           <button id="scrollToTopBtn" onclick="scrollToTopOfTextarea()">
             <img onclick="" src="icons/arrow-up.svg" alt="Scroll Icon" width="20" height="20">
           </button>

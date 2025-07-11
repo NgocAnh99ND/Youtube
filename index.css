@@ -390,21 +390,25 @@ button:hover {
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-y: auto;
+    line-height: 25px;
 }
 
 #scrollToTopBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;           /* Chiều rộng */
-  height: 30px;          /* Chiều cao */
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 50%;    /* Hình tròn */
-  font-size: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-right: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    /* Chiều rộng */
+    height: 30px;
+    /* Chiều cao */
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    /* Hình tròn */
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 170px;
 }
 
 #scrollToTopBtn:hover {
@@ -505,6 +509,72 @@ button:hover {
     height: 20px;
     cursor: pointer;
     color: #888;
+}
+
+.clear-textarea {
+    position: absolute;
+    right: 28px;
+    top: 30%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    color: #888;
+}
+
+.paste-textarea {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: #DDDDDD;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+}
+
+.paste-textarea:hover {
+    background-color: #888
+}
+
+.searchTextArea {
+    display: flex;
+    align-items: center;
+    border: 1px solid #007bff;
+    border-radius: 999px;
+    overflow: hidden;
+    width: 200px;
+    height: 30px;
+    background-color: white;
+    position: relative;
+    margin-right: 12px;
+}
+
+.searchTextArea input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    font-size: 16px;
+    padding-right: 30px;
+    width: 70px;
+    border-radius: 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.searchArea {
+    border: none;
+    background-color: #f0f0f0;
+    padding: 0 13px;
+    cursor: pointer;
+    font-size: 18px;
+    height: 100%;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    margin: 0;
 }
 
 @media (max-width: 900px),

@@ -223,10 +223,15 @@ function toggleSearchBar() {
     }
 }
 
-function pasteFromClipboard() {
+function pasteFromClipboard(id) {
     navigator.clipboard.readText()
         .then(text => {
-            document.getElementById("linkInput").value = text;
+            const element = document.getElementById(id);
+            if (element) {
+                element.value = text;
+            } else {
+                console.warn("Không tìm thấy phần tử với id:", id);
+            }
         })
         .catch(err => {
             console.error("Không thể dán từ clipboard:", err);
@@ -234,13 +239,6 @@ function pasteFromClipboard() {
         });
 }
 
-function clearInput() {
-    document.getElementById('linkInput').value = '';
-}
-
-function clearInputFromKey() {
-    document.getElementById('searchInput').value = '';
-}
 
 function search() {
     const keyword = document.getElementById("searchInput").value.trim();
@@ -408,7 +406,45 @@ function scrollToTopOfTextarea() {
     }
 }
 
-function clearSaveTitleInput() {
-    document.getElementById('saveTitle').value = '';
+function clearInput(id) {
+    const element = document.getElementById(id);
+    console.log("log1", element)
+    if (element) {
+        console.log("log2", element)
+        element.value = '';
+    }
 }
+
+function searchFromTextArea() {
+    const searchTerm = document.getElementById('searchArea').value.trim().toLowerCase();
+    const textarea = document.getElementById('popupTextarea');
+    const content = textarea.value.toLowerCase();
+
+    if (!searchTerm) return;
+
+    const index = content.indexOf(searchTerm);
+
+    if (index !== -1) {
+        // Đặt caret tại vị trí tìm thấy
+        textarea.focus();
+        textarea.setSelectionRange(index, index + searchTerm.length);
+
+        // Cuộn đến vị trí caret
+        const lines = textarea.value.substr(0, index).split('\n').length;
+
+        const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight); // Sẽ ra đúng 25
+        textarea.scrollTop = (lines - 1) * (lineHeight * 1.32); // nhân 1.32 để ra được dòng chính xác hơn
+
+    } else {
+        alert("Không tìm thấy từ cần tìm.");
+    }
+}
+
+
+
+
+
+
+
+
 
